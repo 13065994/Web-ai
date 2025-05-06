@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grace Lead Ai</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      margin: 0;
+    }
+    .nav-bar {
+      background: #0078d7;
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    #chatbot-name {
+      cursor: pointer;
+    }
+    #arrow-down {
+      font-size: 12px;
+      margin-left: 5px;
+    }
+    .profile-info {
+      position: absolute;
+      top: 40px;
+      background: #fff;
+      padding: 20px;
+      border: 1px solid #ddd;
+      width: 200px;
+      display: none;
+    }
+    .profile-info.show {
+      display: block;
+    }
+    #chat {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+    }
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 70%;
+      word-wrap: break-word;
+    }
+    .user {
+      background: #0078d7;
+      color: white;
+      margin-left: auto;
+      border-bottom-right-radius: 0;
+    }
+    .bot {
+      background: #f1f1f1;
+      border: 1px solid #ddd;
+      border-bottom-left-radius: 0;
+      margin-right: auto;
+    }
+    #input-area {
+      display: flex;
+      padding: 10px;
+      background: #fff;
+      border-top: 1px solid #ddd;
+    }
+    #input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      background: #f1f1f1;
+    }
+    #send {
+      background: #0078d7;
+      border: none;
+      color: white;
+      padding: 0 20px;
+      margin-left: 10px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+    .typing-indicator {
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <span id="chatbot-name">Grace Lead Ai <span id="arrow-down">&#9660;</span></span>
+    <div class="profile-info" id="profile-info">
+      <h2>Profile Information</h2>
+      <p>Name: John Doe</p>
+      <p>Email: johndoe@example.com</p>
+    </div>
+  </div>
+  <div id="chat"></div>
+  <div id="input-area">
+    <input type="text" id="input" placeholder="Type your message..." />
+    <button id="send">Send</button>
+  </div>
+  <script>
+    const chat = document.getElementById('chat');
+    const input = document.getElementById('input');
+    const send = document.getElementById('send');
+    let chatHistory = [];
+
+    // Load chat history from local storage
+    if (localStorage.getItem('chatHistory')) {
+      chatHistory = JSON.parse(localStorage.getItem('chatHistory'));
+      chatHistory.forEach(message => {
+        appendMessage(message.content, message.role === 'user' ? 'user' : 'bot');
+      });
+    }
+
+    function appendMessage(text, className) {
+      const msg = document.createElement('div');
+      msg.className = 'message ' + className;
+      msg.textContent = text;
+      chat.appendChild(msg);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const typingIndicator = document.createElement('div');
+      typingIndicator.className = 'typing-indicator';
+      typingIndicator.textContent = 'typing...';
+      chat.appendChild(typingIndicator);
+      chat.scrollTop = chat.scrollHeight;
+      return typingIndicator;
+    }
+
+    async function sendMessage() {
+      const text = input.value.trim();
+      if (!text) return;
+      appendMessage(text, 'user');
+      chatHistory.push({ role: 'user', content: text });
+    
+localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+      input.value = '';
+      const typingIndicator = showTypingIndicator();
+
+      // Simulate bot response
+      setTimeout(() => {
+        typingIndicator.remove();
+        const botResponse = "I'm a chatbot made by Gerald. You said: " + text;
+        appendMessage(botResponse, 'bot');
+        chatHistory.push({ role: 'assistant', content: botResponse });
+        localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+      }, 1000);
+    }
+
+    send.addEventListener('click', sendMessage);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter') sendMessage();
+    });
+
+    document.getElementById('chatbot-name').addEventListener('click', () => {
+      document.getElementById('profile-info').classList.toggle('show');
+    });
+  </script>
+</body>
+</html>
