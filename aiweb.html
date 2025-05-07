@@ -101,8 +101,8 @@
     <span id="chatbot-name">Grace Lead Ai <span id="arrow-down">&#9660;</span></span>
     <div class="profile-info" id="profile-info">
       <h2>Profile Information</h2>
-      <p>Name: John Doe</p>
-      <p>Email: johndoe@example.com</p>
+      <p>Name: Mateo</p>
+      <p>Email: glia@ai.onrender.com</p>
     </div>
   </div>
   <div id="chat"></div>
@@ -210,7 +210,7 @@ async function sendMessage() {
 
   try {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const response = await get(`https://sandipbaruwal.onrender.com/ai?prompt=${encodeURIComponent(text)}&&url=1.com&&uid=4`);
+    const response = await get(`https://sandipbaruwal.onrender.com/ai?prompt=${encodeURIComponent(text)}&url=1.com&uid=4`);
     typingIndicator.remove();
     const botResponse = response.data;
     appendMessage(botResponse, 'bot');
