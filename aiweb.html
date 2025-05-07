@@ -210,7 +210,7 @@ async function sendMessage() {
 
   try {
     await new Promise(resolve => setTimeout(resolve, 1000));
-    const response = await get(`https://sandipbaruwal.onrender.com/ai?prompt=${encodeURIComponent(text)}&url=1.com&uid=4`);
+    const response = await get(`https://chatgpt-ynxd.onrender.com/gpt?query=${encodeURIComponent(text)}%20made%20by%20gerald.`);
     typingIndicator.remove();
     const botResponse = response.data;
     appendMessage(botResponse, 'bot');
