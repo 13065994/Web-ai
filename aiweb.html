@@ -212,7 +212,7 @@ async function sendMessage() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     const response = await get(`https://chatgpt-ynxd.onrender.com/gpt?query=${encodeURIComponent(text)}%20made%20by%20gerald.`);
     typingIndicator.remove();
-    const botResponse = response.data;
+    const botResponse = response.data.text;
     appendMessage(botResponse, 'bot');
     chatHistory.push({ role: 'assistant', content: botResponse });
     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
